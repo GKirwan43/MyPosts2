@@ -1,5 +1,5 @@
-"use client";
-
+import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/services/auth/createUser";
 import {
   Box,
   Button,
@@ -9,13 +9,16 @@ import {
   TextInput,
   FocusTrap,
   rem,
+  LoadingOverlay,
 } from "@mantine/core";
 import { useForm, hasLength, isEmail, matchesField } from "@mantine/form";
-import { useDisclosure } from "@mantine/hooks";
 import { IconAt } from "@tabler/icons-react";
+import { useState } from "react";
 
 const SignUpForm = () => {
-  const [visible, { toggle }] = useDisclosure(false);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const form = useForm({
     initialValues: {
       username: "",
@@ -31,55 +34,94 @@ const SignUpForm = () => {
       ),
       email: isEmail("Invalid Email."),
       password: hasLength(
-        { min: 5 },
-        "Password must be 5 or more characters long.",
+        { min: 6 },
+        "Password must be 6 or more characters long.",
       ),
       confirmPassword: matchesField("password", "Passwords do not match."),
     },
   });
 
+  const signUp = async (values: SignUpFormValues) => {
+    setLoading(true);
+
+    try {
+      await createUser(values);
+      router.push("/dashboard");
+    } catch (e: any) {
+      const errorMessage = e.message;
+
+      if (errorMessage === "auth/email-already-in-use") {
+        form.setErrors({
+          email: "Email already in use.",
+        });
+      } else {
+        form.setErrors({
+          username: " ",
+          email: " ",
+          password: " ",
+          confirmPassword: "Could not create account.",
+        });
+      }
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <FocusTrap>
-      <Box component="form" onSubmit={form.onSubmit(() => {})}>
-        <Stack gap="xs">
-          <TextInput
-            label="Username"
-            placeholder="Your username here"
-            maxLength={25}
-            withAsterisk
-            {...form.getInputProps("username")}
-          />
-          <TextInput
-            label="Email"
-            placeholder="Your email here"
-            leftSection={<IconAt style={{ width: rem(16), height: rem(16) }} />}
-            withAsterisk
-            {...form.getInputProps("email")}
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="Your password"
-            visible={visible}
-            onVisibilityChange={toggle}
-            withAsterisk
-            {...form.getInputProps("password")}
-          />
-          <PasswordInput
-            label="Confirm Password"
-            placeholder="Your password again"
-            visible={visible}
-            onVisibilityChange={toggle}
-            withAsterisk
-            {...form.getInputProps("confirmPassword")}
-          />
-          <Group justify="center" mt="xs">
-            <Button type="submit" size="md" radius="xl">
-              Sign up
-            </Button>
-          </Group>
-        </Stack>
-      </Box>
-    </FocusTrap>
+    <Box pos="relative">
+      <LoadingOverlay
+        visible={loading}
+        zIndex={100}
+        overlayProps={{ blur: 2 }}
+      />
+      <FocusTrap>
+        <Box component="form" onSubmit={form.onSubmit(signUp)}>
+          <Stack gap="xs">
+            <TextInput
+              label="Username"
+              placeholder="Your username here"
+              maxLength={25}
+              withAsterisk
+              {...form.getInputProps("username")}
+            />
+            <TextInput
+              label="Email"
+              placeholder="Your email here"
+              leftSection={
+                <IconAt style={{ width: rem(16), height: rem(16) }} />
+              }
+              withAsterisk
+              {...form.getInputProps("email")}
+            />
+            <PasswordInput
+              label="Password"
+              placeholder="Your password here"
+              visible={passwordVisible}
+              onVisibilityChange={() =>
+                setPasswordVisible((prevState) => !prevState)
+              }
+              withAsterisk
+              {...form.getInputProps("password")}
+            />
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="Your password again"
+              visible={passwordVisible}
+              onVisibilityChange={() =>
+                setPasswordVisible((prevState) => !prevState)
+              }
+              withAsterisk
+              {...form.getInputProps("confirmPassword")}
+            />
+            <Group justify="center" mt="xs">
+              <Button type="submit" size="md" radius="xl">
+                Sign up
+              </Button>
+            </Group>
+          </Stack>
+        </Box>
+      </FocusTrap>
+    </Box>
   );
 };
 

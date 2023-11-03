@@ -1,7 +1,7 @@
 "use client";
 
 import SignUpForm from "@/components/forms/SignUpForm";
-import { Center, Divider, Paper, Title, rem } from "@mantine/core";
+import { Center, Divider, Paper, Title } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
 
 const SignUp = () => {
