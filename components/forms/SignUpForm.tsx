@@ -44,24 +44,13 @@ const SignUpForm = () => {
   const signUp = async (values: SignUpFormValues) => {
     setLoading(true);
 
-    try {
-      await createUser(values);
-      router.push("/dashboard");
-    } catch (e: any) {
-      const errorMessage = e.message;
+    const res = await createUser(values);
+    const fieldErrors = res?.fieldErrors;
 
-      if (errorMessage === "auth/email-already-in-use") {
-        form.setErrors({
-          email: "Email already in use.",
-        });
-      } else {
-        form.setErrors({
-          username: " ",
-          email: " ",
-          password: " ",
-          confirmPassword: "Could not create account.",
-        });
-      }
+    if (fieldErrors) {
+      form.setErrors(fieldErrors);
+    } else {
+      router.push("/dashboard");
     }
 
     setLoading(false);
