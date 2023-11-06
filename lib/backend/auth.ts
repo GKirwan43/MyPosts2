@@ -8,7 +8,7 @@ export const createSession = async () => {
 
   // Check if id token exists
   if (!idToken) {
-    return new NextResponse("No id token provided.", { status: 400 });
+    throw new Error("No Id Token provided.")
   }
 
   // Return token session to user.
@@ -25,10 +25,8 @@ export const createSession = async () => {
       value: session,
       maxAge: expiresIn,
     });
-
-    return new NextResponse("Session created successfully.", { status: 201 });
   } catch (e) {
-    return new NextResponse("Could not create session.", { status: 500 });
+    throw new Error("Could not create session.")
   }
 };
 
@@ -36,7 +34,7 @@ export const getSession = async () => {
   const sessionCookie = cookies().get("session");
 
   if (!sessionCookie) {
-    return new NextResponse("Not logged in.", { status: 400 });
+    throw new Error("Not logged in.")
   }
 
   try {
@@ -44,8 +42,8 @@ export const getSession = async () => {
       sessionCookie.value
     );
 
-    return NextResponse.json(decodedClaims, { status: 200 });
+    return decodedClaims
   } catch (e) {
-    return new NextResponse("Could not validate session.", { status: 500 });
+    throw new Error("Could not validate session.")
   }
 };

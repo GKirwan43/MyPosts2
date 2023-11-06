@@ -1,10 +1,5 @@
 import { auth } from "@/lib/firebase/firebase-config";
-import {
-  createUserWithEmailAndPassword,
-  getIdToken,
-  signInWithCustomToken,
-  updatePassword,
-} from "firebase/auth";
+import { signInWithCustomToken, updatePassword } from "firebase/auth";
 import { loginUser } from "./loginUser";
 
 export const createUser = async (values: SignUpFormValues) => {

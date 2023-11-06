@@ -1,4 +1,3 @@
-import { createSession } from "@/lib/backend/auth";
 import { adminAuth } from "@/lib/firebase/firebase-admin-config";
 import connectToDB from "@/lib/mongoose/db";
 import User from "@/lib/mongoose/models/User";
