@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import { adminAuth } from "./lib/firebase/firebase-admin-config";
+import { Links } from "./lib/utils/contants";
 
-// This function can be marked `async` if using `await` inside
+const loggedOutPaths = [Links.home, Links.signup, Links.login];
+
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
   const sessionCookie = cookies().get("session");
 
-  if (!sessionCookie) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (loggedOutPaths.includes(pathname)) {
+    if (sessionCookie) {
+      return NextResponse.redirect(new URL(Links.dashboard, request.url));
+    }
+  } else if (pathname.startsWith(Links.dashboard)) {
+    if (!sessionCookie) {
+      return NextResponse.redirect(new URL(Links.login, request.url));
+    }
   }
 }
-
-// See "Matching Paths" below to learn more
-export const config = {
-  matcher: "/dashboard",
-};

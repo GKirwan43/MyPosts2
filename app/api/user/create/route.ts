@@ -1,35 +1,63 @@
+import { createSession } from "@/lib/backend/auth";
 import { adminAuth } from "@/lib/firebase/firebase-admin-config";
-import { cookies, headers } from "next/headers";
-import { NextResponse } from "next/server";
+import connectToDB from "@/lib/mongoose/db";
+import User from "@/lib/mongoose/models/User";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST() {
-  const auth = headers().get("Authorization");
-  const idToken = auth?.replace("Bearer ", "");
+export async function POST(res: NextRequest) {
+  const data = await res.json();
 
-  // Check to see if token was sent.
-  if (!idToken) {
-    return new NextResponse("No id token provided.", { status: 400 });
+  // Connect to database.
+  try {
+    await connectToDB();
+  } catch (e) {
+    return new NextResponse("Could not connect to database.", { status: 500 });
   }
 
-  // Create account in database and return token session to user.
+  // Create user in firebase and database.
   try {
-    // Create user session in firebase.
-    const expiresIn = 60 * 60 * 24 * 1000; // One day
-    const session = await adminAuth.createSessionCookie(idToken, {
-      expiresIn,
+    // Check if there is an exsiting user, if there is then send back the appropiate responses
+    const existingUser = await User.findOne({
+      $or: [{ username: data.username }, { email: data.email }],
     });
 
-    // Create user in database
+    if (existingUser) {
+      let errors = {};
 
-    // Create session cookie.
-    cookies().set({
-      name: "session",
-      value: session,
-      maxAge: expiresIn,
+      if (existingUser.username === data.username) {
+        errors = { ...errors, username: "Username already exists." };
+      }
+      if (existingUser.email === data.email) {
+        errors = { ...errors, email: "Email already exists." };
+      }
+
+      return NextResponse.json({ fieldErrors: errors }, { status: 400 });
+    }
+
+    const firebaseUser = await adminAuth.createUser({
+      displayName: data.username,
+      email: data.email,
     });
 
-    return new NextResponse("Account created successfully.", { status: 201 });
-  } catch (e) {
-    return new NextResponse("Could not create account.", { status: 500 });
+    const token = await adminAuth.createCustomToken(firebaseUser.uid);
+
+    const newUser = new User({
+      uid: firebaseUser.uid,
+      username: data.username,
+      email: data.email,
+    });
+
+    await newUser.save();
+
+    return NextResponse.json(
+      { token },
+      {
+        status: 200,
+      }
+    );
+  } catch (e: any) {
+    return new NextResponse("Could not create user in database.", {
+      status: 500,
+    });
   }
 }
