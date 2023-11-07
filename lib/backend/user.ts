@@ -1,7 +1,14 @@
-import { getSession } from "@/lib/backend/auth";
+import connectToDB from "../mongoose/db";
+import User from "../mongoose/models/User";
 
-export const getUser = async () => {
-  const decodedClaims = await getSession();
+const getUser = async (uid: string) => {
+  await connectToDB();
 
-  return decodedClaims;
+  const user = User.findOne({
+    uid,
+  });
+
+  return user;
 };
+
+export { getUser };

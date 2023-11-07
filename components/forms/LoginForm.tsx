@@ -1,21 +1,12 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Group,
-  PasswordInput,
-  Stack,
-  TextInput,
-  FocusTrap,
-  rem,
-  LoadingOverlay,
-} from "@mantine/core";
+import { Box, Button, Group, PasswordInput, Stack, TextInput, FocusTrap, rem, LoadingOverlay } from "@mantine/core";
 import { useForm, isEmail, isNotEmpty } from "@mantine/form";
 import { useState } from "react";
 import { IconAt } from "@tabler/icons-react";
 import { loginUser } from "@/lib/services/auth/loginUser";
 import { useRouter } from "next/navigation";
+import revalidateSession from "@/lib/services/auth/revalidateSession";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -50,33 +41,12 @@ const LoginForm = () => {
 
   return (
     <Box pos="relative">
-      <LoadingOverlay
-        visible={loading}
-        zIndex={100}
-        overlayProps={{ blur: 2 }}
-      />
+      <LoadingOverlay visible={loading} zIndex={100} overlayProps={{ blur: 2 }} />
       <FocusTrap>
         <Box component="form" onSubmit={form.onSubmit(login)}>
           <Stack gap="xs">
-            <TextInput
-              label="Email"
-              placeholder="Your email here"
-              leftSection={
-                <IconAt style={{ width: rem(16), height: rem(16) }} />
-              }
-              withAsterisk
-              {...form.getInputProps("email")}
-            />
-            <PasswordInput
-              label="Password"
-              placeholder="Your password here"
-              visible={passwordVisible}
-              onVisibilityChange={() =>
-                setPasswordVisible((prevState) => !prevState)
-              }
-              withAsterisk
-              {...form.getInputProps("password")}
-            />
+            <TextInput label="Email" placeholder="Your email here" leftSection={<IconAt style={{ width: rem(16), height: rem(16) }} />} withAsterisk {...form.getInputProps("email")} />
+            <PasswordInput label="Password" placeholder="Your password here" visible={passwordVisible} onVisibilityChange={() => setPasswordVisible((prevState) => !prevState)} withAsterisk {...form.getInputProps("password")} />
             <Group justify="center" mt="xs">
               <Button type="submit" size="md" radius="xl">
                 Login

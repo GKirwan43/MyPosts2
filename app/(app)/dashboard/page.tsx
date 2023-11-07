@@ -1,13 +1,17 @@
-import { getUser } from "@/lib/backend/user";
+import { getUser } from "@/lib/services/user";
+import { Title, Text } from "@mantine/core";
 
 const dashboard = async () => {
-  try {
-    const res = await getUser();
+  const user = await getUser();
 
-    return <div>{res.name}</div>;
-  } catch (e) {}
-
-  return <div>No</div>;
+  return (
+    <>
+      <Title>Dashboard</Title>
+      <Text>Username: {user.username}</Text>
+      <Text>Email: {user.email}</Text>
+      <Text>User ID: {user.uid}</Text>
+    </>
+  );
 };
 
 export default dashboard;

@@ -6,11 +6,7 @@ export const loginUser = async (values: LoginFormValues) => {
     let account;
 
     try {
-      account = await signInWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password
-      );
+      account = await signInWithEmailAndPassword(auth, values.email, values.password);
     } catch (e: any) {
       if (e.code === "auth/invalid-login-credentials") {
         return {
