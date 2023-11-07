@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/services/user";
+import { getUser } from "@/lib/services/server/user";
 import { Title, Text } from "@mantine/core";
 
 const dashboard = async () => {

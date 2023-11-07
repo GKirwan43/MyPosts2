@@ -1,6 +1,7 @@
 import "@mantine/core/styles.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { Images } from "@/lib/utils/contants";
+import { ModalsProvider } from "@mantine/modals";
 
 export const metadata = {
   title: "MyPosts",
@@ -29,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             },
           }}
         >
-          {children}
+          <ModalsProvider>{children}</ModalsProvider>
         </MantineProvider>
       </body>
     </html>

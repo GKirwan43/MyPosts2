@@ -4,9 +4,8 @@ import { Box, Button, Group, PasswordInput, Stack, TextInput, FocusTrap, rem, Lo
 import { useForm, isEmail, isNotEmpty } from "@mantine/form";
 import { useState } from "react";
 import { IconAt } from "@tabler/icons-react";
-import { loginUser } from "@/lib/services/auth/loginUser";
+import { loginUser } from "@/lib/services/client/auth/loginUser";
 import { useRouter } from "next/navigation";
-import revalidateSession from "@/lib/services/auth/revalidateSession";
 
 const LoginForm = () => {
   const router = useRouter();

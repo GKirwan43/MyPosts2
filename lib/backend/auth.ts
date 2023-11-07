@@ -1,5 +1,4 @@
 import { cookies, headers } from "next/headers";
-import { NextResponse } from "next/server";
 import { adminAuth } from "../firebase/firebase-admin-config";
 
 export const createSession = async () => {
@@ -8,7 +7,7 @@ export const createSession = async () => {
 
   // Check if id token exists
   if (!idToken) {
-    throw new Error("No Id Token provided.")
+    throw new Error("No Id Token provided.");
   }
 
   // Return token session to user.
@@ -26,7 +25,7 @@ export const createSession = async () => {
       maxAge: expiresIn,
     });
   } catch (e) {
-    throw new Error("Could not create session.")
+    throw new Error("Could not create session.");
   }
 };
 
@@ -34,16 +33,14 @@ export const getSession = async () => {
   const sessionCookie = cookies().get("session");
 
   if (!sessionCookie) {
-    throw new Error("Not logged in.")
+    throw new Error("Not logged in.");
   }
 
   try {
-    const decodedClaims = await adminAuth.verifySessionCookie(
-      sessionCookie.value
-    );
+    const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie.value);
 
-    return decodedClaims
+    return decodedClaims;
   } catch (e) {
-    throw new Error("Could not validate session.")
+    throw new Error("Could not validate session.");
   }
 };

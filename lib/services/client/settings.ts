@@ -1,0 +1,3 @@
+const applySettings = () => {};
+
+const setSettings = () => {};

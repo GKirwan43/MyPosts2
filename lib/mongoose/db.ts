@@ -8,13 +8,11 @@ const connectToDB = async () => {
       await mongoose.connect(MONGODB_URI, {
         useNewUrlParser: true,
       } as any);
-
-      console.log("MongoDB connection successful.");
     } else {
-      console.log("No MongoDB URI found.");
+      throw new Error("No MongoDB URI provided.");
     }
   } catch (e) {
-    console.log(e);
+    throw new Error("Could not connect to database.");
   }
 };
 

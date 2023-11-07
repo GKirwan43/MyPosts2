@@ -1,7 +1,8 @@
 "use client";
 
 import Logo from "@/components/images/Logo";
-import { logoutUser } from "@/lib/services/auth/logoutUser";
+import { openSettingsModal } from "@/lib/mantine/modals";
+import { logoutUser } from "@/lib/services/client/auth/logoutUser";
 import { Links } from "@/lib/utils/contants";
 import { AppShell, Box, Burger, Container, Divider, Group, NavLink, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -52,7 +53,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </AppShell.Section>
         <AppShell.Section>
           <Box py="sm">
-            <NavLink label="Settings" leftSection={<IconSettings size="1.5rem" />} />
+            <NavLink label="Settings" leftSection={<IconSettings size="1.5rem" />} onClick={openSettingsModal} />
             <NavLink label="Logout" leftSection={<IconDoorEnter size="1.5rem" />} onClick={logout} />
           </Box>
           <Divider />
