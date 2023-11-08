@@ -1,14 +1,20 @@
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { Images } from "@/lib/utils/contants";
 import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 
 export const metadata = {
   title: "MyPosts",
   description: "The self journal posting application.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
@@ -22,7 +28,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             primaryShade: 5,
 
             colors: {
-              blue: ["#a5c8f8", "#93bdf7", "#81b2f5", "#6fa7f4", "#5d9cf2", "#4b91f1", "#4483d9", "#3c74c1", "#3566a9", "#2d5791"],
+              blue: [
+                "#a5c8f8",
+                "#93bdf7",
+                "#81b2f5",
+                "#6fa7f4",
+                "#5d9cf2",
+                "#4b91f1",
+                "#4483d9",
+                "#3c74c1",
+                "#3566a9",
+                "#2d5791",
+              ],
             },
 
             headings: {
@@ -30,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             },
           }}
         >
+          <Notifications />
           <ModalsProvider>{children}</ModalsProvider>
         </MantineProvider>
       </body>

@@ -1,12 +1,17 @@
 import { auth } from "@/lib/firebase/firebase-config";
 import { getIdToken, signInWithEmailAndPassword } from "firebase/auth";
+import { revalidateUser } from "../../server/user";
 
 export const loginUser = async (values: LoginFormValues) => {
   try {
     let account;
 
     try {
-      account = await signInWithEmailAndPassword(auth, values.email, values.password);
+      account = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
     } catch (e: any) {
       if (e.code === "auth/invalid-login-credentials") {
         return {
@@ -32,6 +37,8 @@ export const loginUser = async (values: LoginFormValues) => {
     if (!res.ok) {
       throw new Error("Could not create session with api.");
     }
+
+    await revalidateUser();
   } catch (e) {
     return {
       fieldErrors: {

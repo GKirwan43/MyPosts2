@@ -21,6 +21,12 @@ const userSchema = new Schema(
       unique: true,
       required: true,
     },
+    settings: {
+      darkMode: {
+        type: Boolean,
+        default: false,
+      },
+    },
   },
   { timestamps: true }
 );

@@ -1,13 +1,12 @@
 import SettingsForm from "@/components/forms/SettingsForm";
-import { Box, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
-const openSettingsModal = () => {
+const openSettingsModal = (settings: any) => {
   modals.open({
     modalId: "settings",
     title: "Settings",
     centered: true,
-    children: <SettingsForm />,
+    children: <SettingsForm settings={settings} />,
   });
 };
 

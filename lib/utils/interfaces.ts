@@ -1,3 +1,11 @@
+interface User {
+  settings: UserSettings;
+}
+
+interface UserSettings {
+  darkMode: Boolean;
+}
+
 interface LoginFormValues {
   email: string;
   password: string;

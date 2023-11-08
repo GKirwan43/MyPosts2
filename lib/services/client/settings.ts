@@ -1,3 +1,0 @@
-const applySettings = () => {};
-
-const setSettings = () => {};

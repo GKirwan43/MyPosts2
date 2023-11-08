@@ -1,20 +1,26 @@
 import { Images } from "@/lib/utils/contants";
-import { Box, useMantineColorScheme } from "@mantine/core";
+import { Box } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 type Props = {
   link: string;
+  darkMode: Boolean;
 };
 
-const Logo = ({ link }: Props) => {
-  const { colorScheme } = useMantineColorScheme();
-
+const Logo = ({ link, darkMode }: Props) => {
   return (
     <Box h={50} w={100} pos="relative">
       <Link href={link}>
-        <Image src={colorScheme === "dark" ? Images.logoWhiteNoBackground : Images.logoBlackNoBackground} alt="MyPosts logo" fill />
+        <Image
+          src={
+            darkMode
+              ? Images.logoWhiteNoBackground
+              : Images.logoBlackNoBackground
+          }
+          alt="MyPosts logo"
+          fill
+        />
       </Link>
     </Box>
   );
