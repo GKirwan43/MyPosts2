@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 const appUrl = process.env.URL;
 

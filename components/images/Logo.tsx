@@ -1,14 +1,18 @@
+import { UserContext } from "@/context/Contexts";
 import { Images } from "@/lib/utils/contants";
 import { Box } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
 
 type Props = {
   link: string;
-  darkMode: Boolean;
 };
 
-const Logo = ({ link, darkMode }: Props) => {
+const Logo = ({ link }: Props) => {
+  const { user } = useContext(UserContext);
+  const darkMode = user?.settings.darkMode;
+
   return (
     <Box h={50} w={100} pos="relative">
       <Link href={link}>

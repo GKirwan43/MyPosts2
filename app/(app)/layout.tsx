@@ -1,6 +1,5 @@
-import MainAppShell from "@/components/app_shells/MainAppShell";
+import MainAppShell from "@/components/app_shell/app_shells/MainAppShell";
 import { getUser } from "@/lib/services/server/user";
-import { createContext } from "react";
 
 export default async function PublicLayout({
   children,
