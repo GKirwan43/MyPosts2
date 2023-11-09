@@ -3,6 +3,7 @@ const Links = {
   login: "/login",
   signup: "/signup",
   dashboard: "/dashboard",
+  journal: "/journal",
 };
 
 const Images = {

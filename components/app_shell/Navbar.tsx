@@ -1,6 +1,14 @@
-import { IconBook2, IconChevronRight, IconHome } from "@tabler/icons-react";
+import {
+  IconBook2,
+  IconChevronRight,
+  IconHome,
+  IconPlus,
+} from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
-import { openSettingsModal } from "@/lib/mantine/modals";
+import {
+  openCreateJournalModal,
+  openSettingsModal,
+} from "@/lib/mantine/modals";
 import { logoutUser } from "@/lib/services/client/auth/logoutUser";
 import {
   Box,
@@ -11,8 +19,9 @@ import {
 } from "@mantine/core";
 import { IconDoorEnter, IconSettings } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/context/Contexts";
+import { MainAppBarContext } from "@/context/Contexts";
 import { useContext } from "react";
+import { Links } from "@/lib/utils/contants";
 
 const { version } = require("@/package.json");
 
@@ -20,11 +29,13 @@ const Navbar = () => null;
 
 const MainLinks = () => {
   const pathname = usePathname();
+  const { journals } = useContext(MainAppBarContext);
 
   return (
     <>
       <NavLink
         label="Dashboard"
+        href={Links.dashboard}
         leftSection={<IconHome size="1.5rem" />}
         variant="filled"
         active={pathname.startsWith("/dashboard")}
@@ -33,7 +44,25 @@ const MainLinks = () => {
         label="Journals"
         leftSection={<IconBook2 size="1.5rem" />}
         rightSection={<IconChevronRight size="1.5rem" />}
-      />
+        active={pathname.startsWith("/journal")}
+        defaultOpened
+      >
+        <NavLink
+          label="Create new"
+          leftSection={<IconPlus size="1.5rem" />}
+          onClick={openCreateJournalModal}
+          variant="subtle"
+          active
+        />
+        {journals?.map((journal) => (
+          <NavLink
+            label={journal.title}
+            href={`${Links.journal}/${journal.id}`}
+            active={pathname.includes(journal.id)}
+            key={journal.id}
+          />
+        ))}
+      </NavLink>
     </>
   );
 };
@@ -41,7 +70,7 @@ const MainLinks = () => {
 const BottomLinks = () => {
   const router = useRouter();
   const { clearColorScheme } = useMantineColorScheme();
-  const { user } = useContext(UserContext);
+  const { user } = useContext(MainAppBarContext);
   const settings = user?.settings;
 
   const logout = async () => {

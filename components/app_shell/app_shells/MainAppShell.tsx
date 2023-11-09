@@ -4,14 +4,16 @@ import { AppShell, Container, useMantineColorScheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Navbar from "../Navbar";
 import Header from "../Header";
-import { UserContext } from "@/context/Contexts";
+import { MainAppBarContext } from "@/context/Contexts";
 import { useEffect } from "react";
 
 export default function MainAppShell({
   user,
+  journals,
   children,
 }: {
-  user: any;
+  user: User;
+  journals: [Journal];
   children: React.ReactNode;
 }) {
   const { setColorScheme } = useMantineColorScheme();
@@ -25,9 +27,10 @@ export default function MainAppShell({
   }, [user]);
 
   return (
-    <UserContext.Provider
+    <MainAppBarContext.Provider
       value={{
         user,
+        journals,
         desktopNavbarOpened,
         mobileNavbarOpened,
         toggleDesktopNavbarOpen,
@@ -61,6 +64,6 @@ export default function MainAppShell({
           <Container>{children}</Container>
         </AppShell.Main>
       </AppShell>
-    </UserContext.Provider>
+    </MainAppBarContext.Provider>
   );
 }

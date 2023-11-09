@@ -2,7 +2,7 @@ import { Burger, Button, Group, Stack } from "@mantine/core";
 import React, { useContext } from "react";
 import Logo from "../images/Logo";
 import { Links } from "@/lib/utils/contants";
-import { UserContext } from "@/context/Contexts";
+import { MainAppBarContext } from "@/context/Contexts";
 import Link from "next/link";
 
 const Header = () => null;
@@ -31,7 +31,7 @@ const Main = () => {
     mobileNavbarOpened,
     toggleDesktopNavbarOpen,
     toggleMobileNavbarOpen,
-  } = useContext(UserContext);
+  } = useContext(MainAppBarContext);
 
   return (
     <Stack h="100%" justify="center">

@@ -1,11 +1,12 @@
 import { createContext } from "react";
 
-type UserContext = {
+type MainAppBarContext = {
   user?: User;
+  journals?: [Journal];
   desktopNavbarOpened?: boolean;
   mobileNavbarOpened?: boolean;
   toggleDesktopNavbarOpen?: () => void;
   toggleMobileNavbarOpen?: () => void;
 };
 
-export const UserContext = createContext<UserContext>({});
+export const MainAppBarContext = createContext<MainAppBarContext>({});

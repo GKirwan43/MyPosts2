@@ -1,4 +1,4 @@
-import { UserContext } from "@/context/Contexts";
+import { MainAppBarContext } from "@/context/Contexts";
 import { Images } from "@/lib/utils/contants";
 import { Box } from "@mantine/core";
 import Image from "next/image";
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const Logo = ({ link }: Props) => {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(MainAppBarContext);
   const darkMode = user?.settings.darkMode;
 
   return (
