@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const newPost = 
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 404 });
   }
