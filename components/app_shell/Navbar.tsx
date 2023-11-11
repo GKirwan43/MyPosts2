@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { MainAppBarContext } from "@/context/Contexts";
 import { useContext } from "react";
 import { Links } from "@/lib/utils/contants";
+import Link from "next/link";
 
 const { version } = require("@/package.json");
 
@@ -35,6 +36,7 @@ const MainLinks = () => {
     <>
       <NavLink
         label="Dashboard"
+        component={Link}
         href={Links.dashboard}
         leftSection={<IconHome size="1.5rem" />}
         variant="filled"
@@ -45,6 +47,7 @@ const MainLinks = () => {
         leftSection={<IconBook2 size="1.5rem" />}
         rightSection={<IconChevronRight size="1.5rem" />}
         active={pathname.startsWith("/journal")}
+        variant="filled"
         defaultOpened
       >
         <NavLink
@@ -57,8 +60,10 @@ const MainLinks = () => {
         {journals?.map((journal) => (
           <NavLink
             label={journal.title}
+            component={Link}
             href={`${Links.journal}/${journal.id}`}
             active={pathname.includes(journal.id)}
+            variant="filled"
             key={journal.id}
           />
         ))}

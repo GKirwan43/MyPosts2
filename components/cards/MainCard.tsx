@@ -1,8 +1,16 @@
 import { Paper } from "@mantine/core";
 
-const MainCard = ({ children }: { children: React.ReactNode }) => {
+const MainCard = ({
+  children,
+  w,
+  h,
+}: {
+  children: React.ReactNode;
+  w?: string | number;
+  h?: string | number;
+}) => {
   return (
-    <Paper shadow="xs" p="md" radius="lg" withBorder>
+    <Paper shadow="lg" p="md" radius="lg" w={w} h={h}>
       {children}
     </Paper>
   );

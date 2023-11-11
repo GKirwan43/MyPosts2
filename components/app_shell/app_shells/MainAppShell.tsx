@@ -1,6 +1,11 @@
 "use client";
 
-import { AppShell, Container, useMantineColorScheme } from "@mantine/core";
+import {
+  AppShell,
+  Container,
+  ScrollArea,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Navbar from "../Navbar";
 import Header from "../Header";
@@ -53,7 +58,7 @@ export default function MainAppShell({
           <Header.Main />
         </AppShell.Header>
         <AppShell.Navbar p="md">
-          <AppShell.Section grow>
+          <AppShell.Section grow component={ScrollArea}>
             <Navbar.MainLinks />
           </AppShell.Section>
           <AppShell.Section>

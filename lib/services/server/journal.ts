@@ -7,6 +7,21 @@ import { redirect } from "next/navigation";
 
 const appUrl = process.env.URL;
 
+const getJournal = async (id: string) => {
+  const res = await fetch(`${appUrl}/api/journal?id=${id}`, {
+    method: "GET",
+    headers: { Cookie: cookies().toString() },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error);
+  }
+
+  return data;
+};
+
 const getJournals = async () => {
   const res = await fetch(`${appUrl}/api/journals`, {
     method: "GET",
@@ -39,4 +54,4 @@ const createJournal = async (journal: Journal) => {
   redirect(`${Links.journal}/${id}`);
 };
 
-export { getJournals, createJournal };
+export { getJournal, getJournals, createJournal };

@@ -1,5 +1,6 @@
 "use client";
 
+import MainCard from "@/components/cards/MainCard";
 import LoginForm from "@/components/forms/LoginForm";
 import { Center, Divider, Paper, Title } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
@@ -9,13 +10,13 @@ const Login = () => {
 
   return (
     <Center h={0.75 * height}>
-      <Paper shadow="xs" radius="lg" withBorder p="lg" w={300}>
+      <MainCard w={300}>
         <Title size="h2" ta="center">
           Login
         </Title>
         <Divider my="xs" />
         <LoginForm />
-      </Paper>
+      </MainCard>
     </Center>
   );
 };
