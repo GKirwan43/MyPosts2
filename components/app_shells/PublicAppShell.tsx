@@ -2,7 +2,7 @@
 
 import { AppShell, Container, useMantineColorScheme } from "@mantine/core";
 import React, { useEffect } from "react";
-import Header from "../Header";
+import Header from "../navigation/Header";
 
 const PublicAppShell = ({ children }: { children: React.ReactNode }) => {
   const { clearColorScheme } = useMantineColorScheme();

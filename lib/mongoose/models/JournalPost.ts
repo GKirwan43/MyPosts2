@@ -2,25 +2,29 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const journalPostSchema = new Schema({
-  id: {
-    type: String,
-    unique: true,
-    required: true,
+const journalPostSchema = new Schema(
+  {
+    id: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    uid: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      maxLength: 100,
+      required: true,
+    },
+    post: {
+      type: String,
+      required: true,
+    },
   },
-  uid: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    maxLength: 100,
-    required: true,
-  },
-  description: {
-    type: String,
-    maxLength: 300,
-  },
-});
+  { timestamps: true }
+);
 
-export default mongoose.models.JournalPost || mongoose.model("JournalPost", journalPostSchema);
+export default mongoose.models.JournalPost ||
+  mongoose.model("JournalPost", journalPostSchema);

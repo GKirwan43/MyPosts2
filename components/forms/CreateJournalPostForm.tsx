@@ -4,48 +4,54 @@ import {
   Box,
   Button,
   Group,
-  Stack,
   LoadingOverlay,
+  Stack,
   TextInput,
-  Textarea,
 } from "@mantine/core";
-import { closeModal } from "@mantine/modals";
 import { isNotEmpty, useForm } from "@mantine/form";
+import RichTextEditorInput from "../inputs/TextEditor";
+import { createJournalPost } from "@/lib/services/server/journal";
 import {
   showErrorNotification,
   showSuccessNotification,
 } from "@/lib/mantine/notifications";
 import { useState } from "react";
-import { createJournal } from "@/lib/services/server/journal";
 
-const CreateJournalForm = () => {
+const CreateJournalPostForm = ({
+  journalId,
+  onCancel,
+}: {
+  journalId: string;
+  onCancel: () => void;
+}) => {
   const [loading, setLoading] = useState(false);
+
   const form = useForm({
     initialValues: {
       title: "",
-      description: "",
+      post: "",
     },
 
     validate: {
       title: isNotEmpty("Title is required."),
+      post: isNotEmpty("Post is required."),
     },
   });
 
-  const handleSubmit = async (values: any) => {
+  const createPost = async (values: any) => {
     setLoading(true);
 
     try {
-      await createJournal(values);
+      await createJournalPost({ ...values, journalId });
       showSuccessNotification({
-        title: "Journal created.",
-        message: `Journal "${values.title}" has been created!`,
+        title: "Journal post created.",
+        message: `Journal post has been created!`,
       });
-      closeModal("create_journal");
+      onCancel();
     } catch (e: any) {
       showErrorNotification({ message: e.message });
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -55,29 +61,22 @@ const CreateJournalForm = () => {
         zIndex={100}
         overlayProps={{ blur: 2 }}
       />
-      <Box
-        component="form"
-        onSubmit={form.onSubmit(handleSubmit)}
-        onReset={() => closeModal("create_journal")}
-      >
+      <Box component="form" onSubmit={form.onSubmit(createPost)}>
         <Stack>
           <TextInput
             label="Title"
-            placeholder="Title of your journal here."
-            withAsterisk
-            maxLength={100}
+            description="The title for your post."
+            placeholder="Your posts title here."
             {...form.getInputProps("title")}
           />
-          <Textarea
-            label="Description"
-            placeholder="Description of your journal here."
-            maxLength={300}
-            minRows={4}
-            autosize
-            {...form.getInputProps("description")}
+          <RichTextEditorInput
+            label="Post"
+            description="The content of your post."
+            placeholder="Your post here."
+            {...form.getInputProps("post")}
           />
           <Group gap="xs" justify="end">
-            <Button type="reset" variant="default">
+            <Button variant="default" onClick={onCancel}>
               Cancel
             </Button>
             <Button type="submit">Create</Button>
@@ -88,4 +87,4 @@ const CreateJournalForm = () => {
   );
 };
 
-export default CreateJournalForm;
+export default CreateJournalPostForm;

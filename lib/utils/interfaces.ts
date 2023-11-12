@@ -13,6 +13,13 @@ interface Journal {
   description: string;
 }
 
+interface JournalPost {
+  title: string;
+  post: string;
+  createAt: Date;
+  updatedAt: Date;
+}
+
 interface LoginFormValues {
   email: string;
   password: string;

@@ -1,7 +1,7 @@
 "use server";
 
 import { Links } from "@/lib/utils/contants";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -54,4 +54,41 @@ const createJournal = async (journal: Journal) => {
   redirect(`${Links.journal}/${id}`);
 };
 
-export { getJournal, getJournals, createJournal };
+const getJournalPosts = async (journalId: string) => {
+  const res = await fetch(`${appUrl}/api/journal/post?id=${journalId}`, {
+    method: "GET",
+    headers: { Cookie: cookies().toString() },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error);
+  }
+
+  return data;
+};
+
+const createJournalPost = async (journalPost: JournalPost) => {
+  const res = await fetch(`${appUrl}/api/journal/post/create`, {
+    method: "POST",
+    headers: { Cookie: cookies().toString() },
+    body: JSON.stringify(journalPost),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error);
+  }
+
+  revalidatePath("/(app)/journal/[id]");
+};
+
+export {
+  getJournal,
+  getJournals,
+  createJournal,
+  getJournalPosts,
+  createJournalPost,
+};

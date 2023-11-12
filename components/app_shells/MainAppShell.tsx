@@ -7,10 +7,10 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import Navbar from "../Navbar";
-import Header from "../Header";
 import { MainAppBarContext } from "@/context/Contexts";
 import { useEffect } from "react";
+import Header from "../navigation/Header";
+import Navbar from "../navigation/Navbar";
 
 export default function MainAppShell({
   user,

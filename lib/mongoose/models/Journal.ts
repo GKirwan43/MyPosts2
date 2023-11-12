@@ -23,6 +23,9 @@ const journalSchema = new Schema(
       type: String,
       maxLength: 300,
     },
+    posts: {
+      type: [String],
+    },
   },
   { timestamps: true }
 );

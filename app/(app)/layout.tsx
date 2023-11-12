@@ -1,8 +1,6 @@
-import MainAppShell from "@/components/app_shell/app_shells/MainAppShell";
+import MainAppShell from "@/components/app_shells/MainAppShell";
 import { getJournals } from "@/lib/services/server/journal";
 import { getUser } from "@/lib/services/server/user";
-import { Text } from "@mantine/core";
-import { Suspense } from "react";
 
 export default async function PublicLayout({
   children,

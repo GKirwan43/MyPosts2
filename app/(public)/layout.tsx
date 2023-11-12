@@ -1,4 +1,4 @@
-import PublicAppShell from "@/components/app_shell/app_shells/PublicAppShell";
+import PublicAppShell from "@/components/app_shells/PublicAppShell";
 
 export default function PublicLayout({
   children,

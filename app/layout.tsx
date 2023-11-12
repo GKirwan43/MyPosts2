@@ -1,5 +1,6 @@
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/tiptap/styles.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { Images } from "@/lib/utils/contants";
 import { ModalsProvider } from "@mantine/modals";
