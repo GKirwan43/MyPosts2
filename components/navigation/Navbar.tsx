@@ -33,13 +33,11 @@ const MainLinks = () => {
 
 const BottomLinks = () => {
   const router = useRouter();
-  const { clearColorScheme } = useMantineColorScheme();
   const { user } = useContext(MainAppBarContext);
   const settings = user?.settings;
 
   const logout = async () => {
     await logoutUser();
-    clearColorScheme();
     router.push("/");
   };
 

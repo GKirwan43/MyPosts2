@@ -85,10 +85,4 @@ const createJournalPost = async (journalPost: JournalPost) => {
   revalidatePath("/(app)/journal/[id]");
 };
 
-export {
-  getJournal,
-  getJournals,
-  createJournal,
-  getJournalPosts,
-  createJournalPost,
-};
+export { getJournal, getJournals, createJournal, getJournalPosts, createJournalPost };
