@@ -1,8 +1,3 @@
-import { Amplify } from "aws-amplify";
-import awsExports from "@/aws-exports";
-
-Amplify.configure({ ...awsExports, ssr: true });
-
 import { getCurrentUser } from "@/lib/backend/user";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
