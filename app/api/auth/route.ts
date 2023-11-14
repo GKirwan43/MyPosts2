@@ -22,6 +22,6 @@ export async function POST(req: NextRequest) {
     await createSession();
     return new NextResponse("Session created successfully.", { status: 200 });
   } catch (e: any) {
-    return new NextResponse(e.message, { status: 500 });
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
