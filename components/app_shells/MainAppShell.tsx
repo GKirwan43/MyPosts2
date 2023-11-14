@@ -1,35 +1,28 @@
 "use client";
 
-import {
-  AppShell,
-  Container,
-  ScrollArea,
-  useMantineColorScheme,
-} from "@mantine/core";
+import { AppShell, Container, ScrollArea, useMantineColorScheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { MainAppBarContext } from "@/context/Contexts";
 import { useEffect } from "react";
 import Header from "../navigation/Header";
 import Navbar from "../navigation/Navbar";
+import { usePathname } from "next/navigation";
 
-export default function MainAppShell({
-  user,
-  journals,
-  children,
-}: {
-  user: User;
-  journals: [Journal];
-  children: React.ReactNode;
-}) {
+export default function MainAppShell({ user, journals, children }: { user: User; journals: [Journal]; children: React.ReactNode }) {
+  const pathname = usePathname();
   const { setColorScheme } = useMantineColorScheme();
-  const [desktopNavbarOpened, { toggle: toggleDesktopNavbarOpen }] =
-    useDisclosure(true);
-  const [mobileNavbarOpened, { toggle: toggleMobileNavbarOpen }] =
-    useDisclosure();
+  const [desktopNavbarOpened, { toggle: toggleDesktopNavbarOpen }] = useDisclosure(true);
+  const [mobileNavbarOpened, { toggle: toggleMobileNavbarOpen }] = useDisclosure();
 
   useEffect(() => {
     setColorScheme(user.settings.darkMode ? "dark" : "light");
   }, [user]);
+
+  useEffect(() => {
+    if (mobileNavbarOpened) {
+      toggleMobileNavbarOpen();
+    }
+  }, [pathname]);
 
   return (
     <MainAppBarContext.Provider

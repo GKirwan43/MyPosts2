@@ -16,21 +16,12 @@ const CreatePost = ({ journalId }: { journalId: string }) => {
       <Transition transition="pop" mounted={active}>
         {(styles) => (
           <MainCard style={styles}>
-            <CreateJournalPostForm
-              journalId={journalId}
-              onCancel={() => setActive(false)}
-            />
+            <CreateJournalPostForm journalId={journalId} onCancel={() => setActive(false)} />
           </MainCard>
         )}
       </Transition>
-
       <AffixOverlay visible={!active}>
-        <Button
-          size="lg"
-          radius="xl"
-          leftSection={<IconTextPlus />}
-          onClick={() => setActive(true)}
-        >
+        <Button size="lg" radius="xl" leftSection={<IconTextPlus />} onClick={() => setActive(true)}>
           Create post
         </Button>
       </AffixOverlay>
