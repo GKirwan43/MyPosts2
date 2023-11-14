@@ -6,7 +6,7 @@ const loggedOutPaths = [Links.home, Links.signup, Links.login];
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-  const validSession = await fetch(`${process.env.BACKEND_URL}/api/user`, {
+  const validSession = await fetch(`${process.env.URL}/api/user`, {
     headers: { Cookie: req.cookies.toString() },
   }).then((res) => res.ok);
 

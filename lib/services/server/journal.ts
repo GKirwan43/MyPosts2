@@ -5,7 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const appUrl = process.env.BACKEND_URL;
+const appUrl = process.env.URL;
 
 const getJournal = async (id: string) => {
   const res = await fetch(`${appUrl}/api/journal?id=${id}`, {

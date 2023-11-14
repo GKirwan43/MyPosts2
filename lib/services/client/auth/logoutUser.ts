@@ -5,7 +5,7 @@ import { signOut } from "firebase/auth";
 export const logoutUser = async () => {
   signOut(auth);
 
-  await fetch(`${process.env.BACKEND_URL}/api/auth?logout=true`, {
+  await fetch(`${process.env.URL}/api/auth?logout=true`, {
     method: "POST",
   });
 };
