@@ -5,19 +5,23 @@ import { Links } from "./lib/utils/contants";
 const loggedOutPaths = [Links.home, Links.signup, Links.login];
 
 export async function middleware(req: NextRequest) {
-  const pathname = req.nextUrl.pathname;
-  const validSession = await fetch(`${process.env.URL}/api/user`, {
-    headers: { Cookie: req.cookies.toString() },
-  }).then((res) => res.ok);
+  try {
+    const pathname = req.nextUrl.pathname;
+    const validSession = await fetch(`${process.env.URL}/api/user`, {
+      headers: { Cookie: req.cookies.toString() },
+    }).then((res) => res.ok);
 
-  // Redirections based on path
-  if (loggedOutPaths.includes(pathname)) {
-    if (validSession) {
-      return NextResponse.redirect(new URL(Links.dashboard, req.url));
+    // Redirections based on path
+    if (loggedOutPaths.includes(pathname)) {
+      if (validSession) {
+        return NextResponse.redirect(new URL(Links.dashboard, req.url));
+      }
+    } else if (pathname.startsWith(Links.dashboard)) {
+      if (!validSession) {
+        return NextResponse.redirect(new URL(Links.login, req.url));
+      }
     }
-  } else if (pathname.startsWith(Links.dashboard)) {
-    if (!validSession) {
-      return NextResponse.redirect(new URL(Links.login, req.url));
-    }
+  } catch (e: any) {
+    return new NextResponse(e.message, { status: 500 });
   }
 }
