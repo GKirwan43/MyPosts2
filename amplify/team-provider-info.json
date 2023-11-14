@@ -13,7 +13,13 @@
     },
     "categories": {
       "function": {
-        "myposts2b4bd490f": {}
+        "myposts2b4bd490f": {
+          "deploymentBucketName": "amplify-amplify577ec58efcf54-staging-14047-deployment",
+          "s3Key": "amplify-builds/myposts2b4bd490f-2f555475354350523430-build.zip"
+        }
+      },
+      "api": {
+        "api82f20309": {}
       }
     }
   }

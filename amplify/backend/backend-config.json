@@ -21,5 +21,23 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
+  },
+  "parameters": {
+    "AMPLIFY_function_myposts2b4bd490f_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "myposts2b4bd490f"
+        }
+      ]
+    },
+    "AMPLIFY_function_myposts2b4bd490f_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "myposts2b4bd490f"
+        }
+      ]
+    }
   }
 }
