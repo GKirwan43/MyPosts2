@@ -8,7 +8,11 @@ import {
 import { getAuth } from "firebase-admin/auth";
 
 const firebaseAdminConfig = {
-  credential: cert(process.env.FIREBASE_SECRET_KEY as ServiceAccount),
+  credential: cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/gm, "\n"),
+  } as ServiceAccount),
 };
 
 export default function initializeAndGetApp() {
