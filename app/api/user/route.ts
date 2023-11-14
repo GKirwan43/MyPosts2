@@ -4,15 +4,19 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const user = await getCurrentUser();
+    try {
+      const user = await getCurrentUser();
 
-    if (!user) {
-      throw new Error("No user exists.");
+      if (!user) {
+        throw new Error("No user exists.");
+      }
+
+      return NextResponse.json(user, { status: 200 });
+    } catch (e: any) {
+      cookies().delete("session");
+      return new NextResponse(e.message, { status: 401 });
     }
-
-    return NextResponse.json(user, { status: 200 });
   } catch (e: any) {
-    cookies().delete("session");
     return new NextResponse(e.message, { status: 401 });
   }
 }
