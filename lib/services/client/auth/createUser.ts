@@ -4,7 +4,7 @@ import { loginUser } from "./loginUser";
 
 export const createUser = async (values: SignUpFormValues) => {
   try {
-    const res = await fetch("/api/user/create", {
+    const res = await fetch(`${process.env.BACKEND_URL}/api/user/create`, {
       method: "POST",
       body: JSON.stringify({
         username: values.username,

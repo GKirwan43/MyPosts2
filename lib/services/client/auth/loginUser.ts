@@ -27,7 +27,7 @@ export const loginUser = async (values: LoginFormValues) => {
 
     const idToken = await getIdToken(account.user, true);
 
-    const res = await fetch("/api/auth", {
+    const res = await fetch(`${process.env.BACKEND_URL}/api/auth`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${idToken}`,

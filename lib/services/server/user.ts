@@ -3,7 +3,7 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-const appUrl = process.env.URL;
+const appUrl = process.env.BACKEND_URL;
 
 const getUser = async () => {
   const res = await fetch(`${appUrl}/api/user`, {
