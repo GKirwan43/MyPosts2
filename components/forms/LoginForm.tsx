@@ -14,8 +14,9 @@ import {
 import { useForm, isEmail, isNotEmpty } from "@mantine/form";
 import { useState } from "react";
 import { IconAt } from "@tabler/icons-react";
-import { loginUser } from "@/lib/services/client/auth/loginUser";
 import { useRouter } from "next/navigation";
+import { Links } from "@/lib/utils/contants";
+import { loginUser } from "@/lib/services/user";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -34,16 +35,27 @@ const LoginForm = () => {
   });
 
   const login = async (values: LoginFormValues) => {
+    const { email, password } = values;
+
     setLoading(true);
 
-    const res = await loginUser(values);
-    const fieldErrors = res?.fieldErrors;
+    try {
+      await loginUser(email, password);
+      router.push(Links.dashboard);
+    } catch (e: any) {
+      const errorMessages: Record<string, string> = {
+        "auth/invalid-login-credentials": "Incorrect email or password.",
+        "auth/too-many-requests": "Too many requests. Try again later.",
+      };
 
-    if (fieldErrors) {
-      form.setErrors(fieldErrors);
+      const errorMessage = errorMessages[e.code] || "Could not log in.";
+
+      form.setErrors({
+        email: " ",
+        password: errorMessage,
+      });
+
       setLoading(false);
-    } else {
-      router.push("/dashboard");
     }
   };
 

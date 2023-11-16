@@ -1,57 +1,16 @@
 import { cookies, headers } from "next/headers";
 import { adminAuth } from "../firebase/firebase-admin-config";
-import { getUser } from "./user";
 
-export const createSession = async () => {
-  const auth = headers().get("Authorization");
-  const idToken = auth?.replace("Bearer ", "");
-
-  // Check if id token exists
-  if (!idToken) {
-    throw new Error("Authentication error: No Id Token provided.");
-  }
-
-  // Return token session to user.
-  try {
-    // Check if user is in database.
-    const decodedToken = await adminAuth.verifyIdToken(idToken);
-    const user = await getUser(decodedToken.uid);
-
-    if (!user) {
-      throw new Error("Authentication error: Could not find user in database.");
-    }
-
-    // Create user session in firebase.
-    const expiresIn = 60 * 60 * 24 * 1000; // One day
-    const session = await adminAuth.createSessionCookie(idToken, {
-      expiresIn,
-    });
-
-    // Create session cookie.
-    cookies().set({
-      name: "session",
-      value: session,
-      maxAge: expiresIn,
-    });
-  } catch (e) {
-    throw new Error("Authentication error: Could not create session.");
-  }
+export const getIdToken = () => {
+  return headers().get("Authorization")?.replace("Bearer ", "");
 };
 
-export const getSession = async () => {
-  const sessionCookie = cookies().get("session");
+export const createSession = async (idToken: string) => {
+  const expiresIn = 60 * 60 * 24 * 5 * 1000;
 
-  if (!sessionCookie) {
-    throw new Error("Authentication error: Not logged in.");
-  }
+  const sessionCookie = await adminAuth.createSessionCookie(idToken, {
+    expiresIn,
+  });
 
-  try {
-    const decodedClaims = await adminAuth.verifySessionCookie(
-      sessionCookie.value
-    );
-
-    return decodedClaims;
-  } catch (e) {
-    throw new Error("Authentication error: Could not validate session.");
-  }
+  cookies().set("session", sessionCookie);
 };

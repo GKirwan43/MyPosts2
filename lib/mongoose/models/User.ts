@@ -13,7 +13,6 @@ const userSchema = new Schema(
       type: String,
       minLength: 5,
       maxLength: 25,
-      unique: true,
       required: true,
     },
     email: {
